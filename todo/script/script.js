@@ -2,7 +2,7 @@
 const taskInput = document.getElementById("task-input");
 const addTaskBtn = document.getElementById("add-task");
 const todosList = document.getElementById("todos-list");
-const itemsLeft = document.getElementById("items-left");
+const itemsLeft = document.getElementById("item-left");
 const clearCompletedBtn = document.getElementById("clear-completed");
 const emptyState = document.querySelector(".empty-state");
 const dateElement = document.getElementById("date");
@@ -11,15 +11,6 @@ const filters = document.querySelectorAll(".filter");
 //数据初始化：
 let todos = [];
 let currentFilter = "all";
-
-//点击添加按钮；
-addTaskBtn.addEventListener("click", () => {
-  addTodo(taskInput.value);
-});
-//敲击回车：
-taskInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") addTodo(taskInput.value);
-});
 
 //点击添加按钮；
 addTaskBtn.addEventListener("click", () => {
