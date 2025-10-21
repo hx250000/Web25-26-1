@@ -137,5 +137,5 @@ function showCopySuccess() {
     copyButton.classList.remove("fas", "fa-check");
     copyButton.classList.add("far", "fa-copy");
     copyButton.style.color = "";
-  }, 1500);
+  }, 500);
 }
