@@ -54,6 +54,10 @@ header p{
     color: var(--text-dark);
     opacity: 0.7;
 }
+.api-link a{
+    color: var(--primary);
+    text-decoration: none;
+}
 .search-container{
     display: flex;
     margin-bottom: 2rem;
@@ -150,4 +154,105 @@ result-heading{
     color: var(--primary);
     border: 1px solid var(--primary);
     padding: 8px 16px;
+}
+#back-btn:hover{
+    background-color: var(--primary);
+    color: white;
+
+}
+.meal-details-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.meal-details-img{
+    width: 100%;
+    max-width: 400px;
+    border-radius: var(--border-radius);
+    margin-bottom: 1.5rem;
+}
+.meal-details-title{
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+    text-align: center;
+}
+.meal-details-category{
+    margin-bottom: 1rem;
+    text-align: center;
+}
+.meal-details-category span{
+    background-color: var(--primary-light);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+.meal-details-instructions{
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+}
+.meal-details-instructions h3{
+    margin-bottom: 0.5rem;
+}
+.ingredients-list{
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 7px;
+    width: 100%;
+
+}
+.ingredients-list li{
+    display: flex;
+    align-items: center;
+    background-color: var(--background-light);
+    padding: 6px 8px;
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+}
+.ingredients-list li i{
+    color: var(--secondary);
+    margin-right: 8px;
+}
+.youtube-link{
+    display: inline-block;
+    background-color: #ff0000;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+}
+.youtube-link i{
+    margin-right: 8px;
+}
+#error-container{
+    background-color: rgba(255,126,95,0.1);
+    border: 1px solid var(--primary);
+    text-align: center;
+    color: var(--primary-dark);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+@media(max-width:600px){
+    .search-container{
+        flex-direction: column;
+    }
+    button#search-btn{
+        width: 100%;
+        padding: 10px;
+    }
+    .meals-container{
+        grid-template-columns: 1fr;
+    }
+    .meal-details-content{
+        align-items: flex-start;
+    }
+    .meal-details-img{
+        max-width: 100%;
+    }
 }

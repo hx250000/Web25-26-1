@@ -45,27 +45,12 @@ async function searchMeals() {
       searchInput.value = "";
     }
   } catch (error) {
+    console.error("Error fetching meals:", error);
     errorContainer.textContent = "Something went wrong. Please try again later.";
     errorContainer.classList.remove("hidden");
   }
 }
-async function searchMeals() {
-  const searchTerm = searchInput.value.trim();
-  
-  try {
-    // 异步请求：fetch API 返回 Promise
-    const response = await fetch(`${SEARCH_URL}${searchTerm}`);
-    const data = await response.json(); // 异步解析 JSON
 
-    if (data.meals === null) {
-      // 处理无结果的情况
-    } else {
-      displayMeals(data.meals); // 渲染数据
-    }
-  } catch (error) {
-    // 处理错误
-  }
-}
 function displayMeals(meals) {
   mealsContainer.innerHTML = "";
   // loop through meals and create a card for each meal
@@ -142,6 +127,7 @@ async function handleMealClick(e) {
       mealDetails.scrollIntoView({ behavior: "smooth" });
     }
   } catch (error) {
+    console.error("Error fetching meal details:", error);
     errorContainer.textContent = "Could not load recipe details. Please try again later.";
     errorContainer.classList.remove("hidden");
   }

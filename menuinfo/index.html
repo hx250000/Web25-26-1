@@ -32,17 +32,18 @@
                 Search
             </button>
         </div>
-        <div id="error-container" class="hidden">
+        <div id="error-container" class="hidden"><!--class="hidden"-->
             <p>No meals found. Try another input.</p>
         </div>
 
-        <div class="result-heading">
+        <div class="result-heading hidden" id="result-heading">
             <!-- Result heading will be displayed here by js -->
             search res...
         </div>
 
-        <div id="meals" class="meals-container">
+        <div id="meals" class="meals-container hidden">
             <!-- Meals will be displayed here -->
+            <!--
             <div class="meal" data-meal-id="52777">
                 <img src="https://www.themealdb.com/images/media/meals/wvqpwt1468339226.jpg" alt="Mediterranean Pasta Salad">
                 <div class="meal-info">
@@ -64,11 +65,16 @@
                     <div class="meal-category">Seafood</div>
                 </div>
             </div>
+            -->
         </div>
-        <div id="meal-details">
+    
+        <div id="meal-details" class="hidden">
             <!-- Meal details will be displayed here -->
+            
             <button id="back-btn"><i class="fa-solid fa-arrow-left"></i>Back to recipes</button>
+            
             <div class="meal-details-content">
+                <!--
                 <img src="https://www.themealdb.com/images/media/meals/wvqpwt1468339226.jpg" alt="Mediterranean Pasta Salad" class="meal-details-img">
                 <h2 class="meal-details-title">Mediterranean Pasta Salad</h2>
                 <div class="meal-details-category">
@@ -96,7 +102,9 @@
                 <a href="https://www.youtube.com/watch?v=e52IL8zYmaE" target="_blank" class="youtube-link">
                     <i class="fab fa-youtube"></i> Watch Video
                 </a>
+                -->
             </div>
+            
         </div>
     </div>
     <script src="script.js" class="js"></script>
