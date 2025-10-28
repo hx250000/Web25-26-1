@@ -65,6 +65,7 @@ header p{
 .project-card{
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
+    border: 1px solid #ddd;
     box-shadow: var(--shadow);
     overflow: hidden;
     cursor: pointer;
