@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f5efe6;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      padding: 20px;
+    }
+
+    .login-box {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      padding: 40px;
+      position: relative;
+    }
+
+    .login-box h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #e86a53;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      background-color: #d45b28;
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .register-link {
+      margin-top: 20px;
+      text-align: right;
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+    }
+
+    .register-link p {
+      color: #666;
+      font-size: 13px;
+    }
+
+    .register-link a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    .register-link a:hover {
+      color: #764ba2;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="login-box">
+      <h1>Login</h1>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="Username">Username:</label>
+          <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <button type="button" id="login-btn" class="btn">Login</button>
+      </form>
+      <div id="message" class="helper" aria-live="polite"></div>
+      <div class="register-link">
+        <p>Don't have an account? <a href="register.html">Register here</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    // JWT 拦截器：自动在请求中添加 token，401/403 时跳转登录
+    axios.interceptors.request.use(function (config) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        config.headers.Authorization = 'Bearer ' + token;
+      }
+      return config;
+    }, function (error) {
+      return Promise.reject(error);
+    });
+
+    // 响应拦截器：JWT 验证失败时自动跳转登录
+    let isRedirecting = false; // 防止多次重定向
+    axios.interceptors.response.use(function (response) {
+      return response;
+    }, function (error) {
+      if (!isRedirecting && error.response && (error.response.status === 401 || error.response.status === 403)) {
+        isRedirecting = true;
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('username');
+        window.location.href = 'login.html';
+      }
+      return Promise.reject(error);
+    });
+
+    // 使用按钮点击触发登录请求（兼容后端返回的 code/msg/data）
+    document.getElementById('login-btn').addEventListener('click', function () {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const msgEl = document.getElementById('message');
+
+      msgEl.className = 'helper';
+
+      if (!username || !password) {
+        msgEl.textContent = '请填写所有字段';
+        msgEl.className = 'error';
+        return;
+      }
+
+      msgEl.textContent = '正在登录...';
+
+      axios.post('http://localhost/userlogin', { username: username, password: password })
+        .then(function (response) {
+          const res = response.data || {};
+          // 成功：code === 200，res.data 为 token
+          if (res.code === 200) {
+            localStorage.setItem('token', res.data);
+            msgEl.textContent = '登录成功，正在跳转...';
+            msgEl.className = 'success';
+            setTimeout(function () { window.location.href = 'quiz.html'; }, 600);
+          } else {
+            // 登录失败，显示后端提示（兼容 msg 或 message 字段）
+            const err = res.msg || res.message || '登录失败';
+            msgEl.textContent = err;
+            msgEl.className = 'error';
+          }
+        })
+        .catch(function (error) {
+          console.error('请求失败：', error);
+          msgEl.textContent = '请求失败，请稍后重试';
+          msgEl.className = 'error';
+        });
+    });
+  </script>
+</body>
+
+</html>
