@@ -1,6 +1,10 @@
 import { AudioOutlined } from '@ant-design/icons';
 import { Input, Space, Button } from 'antd';
 import React from 'react';
+import AddQuestion from './AddQuestion';
+import { useState } from 'react';
+import { Modal } from 'antd';
+
 
 const { Search } = Input;
 const suffix = (
@@ -13,7 +17,20 @@ const suffix = (
 );
 const onSearch = (value) => console.log(value);
 
-const App = () => (
+const App = () =>{ 
+  const [open, setOpen] = useState(false);
+  const showModal = () => {
+    setOpen(true);
+  }
+  const handleOk = () => {
+    // setModalText('The modal will be closed after two seconds');
+    setOpen(false);
+  }
+  const handleCancel = () => {
+    console.log('Clicked cancel button');
+    setOpen(false);
+  };
+return(
   <Space direction="horizontal">
     <Search
       placeholder="请输入题目"
@@ -22,9 +39,17 @@ const App = () => (
       size="large"
       onSearch={onSearch}
     />
-    <Button type="primary" onClick={() => alert('自定义按钮点击')} style={{background:'green', borderColor:'green'}}>
+    <Button type="primary" onClick={showModal} style={{background:'green', borderColor:'green'}}>
       添加题目
     </Button>
+    <Modal
+          title="添加题目"
+          open={open}
+          onOk={handleOk}
+          onCancel={handleCancel}
+        >
+          <AddQuestion />
+      </Modal>
   </Space>
-);
+);}
 export default App;

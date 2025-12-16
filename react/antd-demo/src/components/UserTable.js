@@ -1,5 +1,6 @@
 import { Space, Table } from 'antd';
 import React from 'react';
+import { useState } from 'react';
 const columns = [
     {
         title: '序号',
@@ -58,23 +59,36 @@ const data = [
         id: '5',
         name: 'Joe Black',
         date: '2025-9-11'
+    },
+    {
+        key: '6',
+        id: '6',
+        name: 'Xing He',
+        date: '2025-9-11'
     }
 ];
 
-const onChange = (pagination, filters, sorter, extra) => {
-    console.log('params', pagination, filters, sorter, extra);
-};
-
-const App = () => <Table
-    columns={columns}
-    dataSource={data}
-    pagination={{
-        current: 1, // 当前页码
-        pageSize: 5, // 每页条数
-        total: 100, // 数据总数
-        showSizeChanger: false,
-        position: ['bottomLeft'],
-        onChange: () => { /* 页码或每页条数变化时的回调 */ },
-    }}
-    onChange={onChange} />;
+const App = () => {
+    const [currentPage, setCurrentPage] = useState(1);
+    
+    const handleTableChange = (pagination) => {
+        setCurrentPage(pagination.current);
+        console.log('当前页码：', pagination.current);
+    };
+    return (
+        <Table
+        columns={columns}
+        dataSource={data}
+        pagination={{
+            current: currentPage, // 当前页码
+            pageSize: 5, // 每页条数
+            total: data.length, // 数据总数
+            showSizeChanger: false,
+            position: ['bottomLeft'],
+            showQuickJumper: false,
+            showTotal: false,
+            onChange: () => { /* 页码或每页条数变化时的回调 */ },
+        }}
+        onChange={handleTableChange} />);
+}
 export default App;

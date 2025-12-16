@@ -1,6 +1,8 @@
 import { render } from '@testing-library/react';
 import { Space, Table } from 'antd';
 import React from 'react';
+import { useState } from 'react';
+//import { rowKey } from 'antd/es/table/utils/commonUtils';
 const columns = [
     {
         title: '序号',
@@ -70,23 +72,62 @@ const data = [
         question: 'React的路由管理有哪些方式？',
         options: ['A. React Router', 'B. Next.js', 'C. Reach Router'],
         answer: 'A'
+    },
+    {
+        key: '6',
+        id: '6',
+        question: '下列关于进程和线程的描述，正确的是',
+        options: [' A. 无论系统是否支持线程，进程都是资源分配的基本单位',
+            'B. 线程是资源分配的基本单位，进程是调度的基本单位',
+            'C. 内核线程和用户线程的切换都需要内核支持。用户不需要',
+            'D. 同一进程的各个线程拥有各自不同的地址空间'],
+        answer: 'A'
+    },
+    {
+        key: '7',
+        id: '7',
+        question: '在分时系统中，当一个用户进程执行完一个时间片后，该进程的状态转化为',
+        options: [' A. 运行->等待', ' B. 就绪->运行', ' C. 运行->终止', ' D. 运行->就绪'],
+        answer: 'D'
     }
+    /*
+    1、下列关于进程和线程的描述，正确的是(   A  )。
+    A. 无论系统是否支持线程，进程都是资源分配的基本单位
+    B. 线程是资源分配的基本单位，进程是调度的基本单位
+    C. 内核线程和用户线程的切换都需要内核支持。用户不需要
+    D. 同一进程的各个线程拥有各自不同的地址空间
+    2、在分时系统中，当一个用户进程执行完一个时间片后，该进程的状态转化为（  D  ）。
+    A. 运行->等待    B. 就绪->运行    C. 运行->终止    D. 运行->就绪
+    */
 ];
 
 const onChange = (pagination, filters, sorter, extra) => {
     console.log('params', pagination, filters, sorter, extra);
 };
 
-const App = () => <Table
-    columns={columns}
-    dataSource={data}
-    pagination={{
-        current: 1, // 当前页码
-        pageSize: 5, // 每页条数
-        total: 100, // 数据总数
-        showSizeChanger: false,
-        position: ['bottomLeft'],
-        onChange: () => { /* 页码或每页条数变化时的回调 */ },
-    }}
-    onChange={onChange} />;
+const App = () => {
+    const [currentPage, setCurrentPage] = useState(1);
+    
+    const handleTableChange = (pagination) => {
+        setCurrentPage(pagination.current);
+        console.log('当前页码：', pagination.current);
+    };
+
+    return (<Table
+        columns={columns}
+        dataSource={data}
+        pagination={{
+            current: currentPage, // 当前页码
+            pageSize: 5, // 每页条数
+            total: data.length, // 数据总数
+            showSizeChanger: false,
+            position: ['bottomLeft'],
+            showQuickJumper: false,
+            showTotal: false,
+            onChange: () => { /* 页码或每页条数变化时的回调 */ },
+        }}
+        onChange={handleTableChange} 
+        rowKey='key'
+        />);
+}
 export default App;
