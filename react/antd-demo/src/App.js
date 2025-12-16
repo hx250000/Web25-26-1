@@ -1,7 +1,7 @@
 import { Layout, Menu } from 'antd';
-import { Color } from 'antd/es/color-picker';
+//import { Color } from 'antd/es/color-picker';
 import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import React from 'react';
+//import React from 'react';
 import UserSearch from './components/UserSearch';
 import UserTable from './components/UserTable';
 import QuestionSearch from './components/QuestionSearch';

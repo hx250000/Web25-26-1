@@ -1,6 +1,6 @@
 //AddNew.js的源代码：
 import { Form, Input, Button } from 'antd';
-import React from 'react';
+//import React from 'react';
 
 const formItemLayout = {
   labelCol: { xs: { span: 24 }, sm: { span: 8 } },
