@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+knife4j:
+  enable: true
+  openapi:
+    title: ai脑筋急转弯
+    group:
+      default:
+        group-name: ai脑筋急转弯
+        api-rule: package
+        api-rule-resources:
+          - com.zjgsu.hx.aichatbackend.controller
+
+
+ai:
+  api_key: 2329bc2c-48e6-4c1f-8a86-930e20ca6675
